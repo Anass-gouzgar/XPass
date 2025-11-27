@@ -158,4 +158,21 @@ export const translations: Translation = {
   tools_entropy: { en: 'Entropy (Bytes)', ar: 'الإنتروبيا (بايت)', fr: 'Entropie (Octets)' },
   tools_api_placeholder: { en: 'Click generate to create a secure key', ar: 'انقر للتوليد لإنشاء مفتاح آمن', fr: 'Cliquez pour générer une clé' },
   tools_gen_key: { en: 'Generate Secure Key', ar: 'توليد مفتاح آمن', fr: 'Générer une clé sécurisée' },
+
+  // Landing Page
+  landing_hero: { en: 'Secure Your Digital Life', ar: 'أمّن حياتك الرقمية', fr: 'Sécurisez votre vie numérique' },
+  landing_sub: { en: 'The all-in-one professional security toolkit for everyone.', ar: 'مجموعة أدوات الأمان الاحترافية الشاملة للجميع.', fr: 'La boîte à outils de sécurité professionnelle tout-en-un pour tous.' },
+  landing_cta: { en: 'Launch App', ar: 'تشغيل التطبيق', fr: 'Lancer l\'application' },
+  
+  feat_gen: { en: 'Advanced Generator', ar: 'مولد متقدم', fr: 'Générateur avancé' },
+  feat_gen_desc: { en: 'Create unbreakable passwords, passphrases, and PINs instantly.', ar: 'أنشئ كلمات مرور وعبارات مرور ورموز PIN غير قابلة للكسر فورًا.', fr: 'Créez instantanément des mots de passe, phrases secrètes et codes PIN incassables.' },
+  
+  feat_vault: { en: 'Encrypted Vault', ar: 'خزنة مشفرة', fr: 'Coffre chiffré' },
+  feat_vault_desc: { en: 'Store credentials locally with AES-256 encryption. Zero knowledge.', ar: 'خزن بيانات الاعتماد محليًا بتشفير AES-256. صفر معرفة.', fr: 'Stockez vos identifiants localement avec le chiffrement AES-256. Zéro connaissance.' },
+  
+  feat_analyze: { en: 'Health Analysis', ar: 'تحليل الصحة', fr: 'Analyse de santé' },
+  feat_analyze_desc: { en: 'Detect weak passwords and check against known data breaches.', ar: 'اكتشف كلمات المرور الضعيفة وتحقق من تسريبات البيانات المعروفة.', fr: 'Détectez les mots de passe faibles et vérifiez les fuites de données connues.' },
+  
+  feat_tools: { en: 'Dev Tools', ar: 'أدوات المطورين', fr: 'Outils de dév' },
+  feat_tools_desc: { en: 'Generate Hashes, UUIDs, API Keys, and fake identities.', ar: 'توليد التجزئة، UUIDs، مفاتيح API، وهويات مزيفة.', fr: 'Générez des hachages, UUID, clés API et fausses identités.' },
 };

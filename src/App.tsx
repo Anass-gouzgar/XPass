@@ -116,7 +116,13 @@ const App: React.FC = () => {
           
           <div className="flex-1 relative z-10 mx-auto w-full" ref={contentRef}>
               {view === 'landing' && (
-                  <LandingPage onGetStarted={() => setView('generator')} />
+                  <LandingPage 
+                    lang={lang} 
+                    setLang={setLang}
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                    onGetStarted={() => setView('generator')} 
+                  />
               )}
               {view === 'generator' && (
                   <div className="min-h-full flex flex-col items-center justify-center p-4 md:p-8 py-12">

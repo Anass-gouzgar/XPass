@@ -1,120 +1,142 @@
 import React, { useEffect, useRef } from 'react';
-import { Shield, Zap, Eye, ChevronRight } from 'lucide-react';
+import { LanguageCode } from '../types';
+import { translations } from '../services/i18nService';
+import { Shield, KeyRound, LayoutDashboard, Wrench, ChevronRight, Lock, Activity, Moon, Sun, Globe } from 'lucide-react';
 import gsap from 'gsap';
 
-interface LandingPageProps {
+interface Props {
+  lang: LanguageCode;
+  setLang: (lang: LanguageCode) => void;
+  isDarkMode: boolean;
+  setIsDarkMode: (isDark: boolean) => void;
   onGetStarted: () => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
+const LandingPage: React.FC<Props> = ({ lang, setLang, isDarkMode, setIsDarkMode, onGetStarted }) => {
+  const t = translations;
   const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const ctx = gsap.context(() => {
+      // Hero Entrance
+      gsap.fromTo(heroTextRef.current?.children || [],
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out", delay: 0.2 }
+      );
 
-    tl.fromTo(titleRef.current, 
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 }
-    )
-    .fromTo(descRef.current, 
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.6"
-    )
-    .fromTo(btnRef.current, 
-      { y: 20, opacity: 0, scale: 0.9 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6 },
-      "-=0.6"
-    )
-    .fromTo(featuresRef.current?.children || [], 
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 },
-      "-=0.4"
-    );
+      // Features Entrance
+      gsap.fromTo(featuresRef.current?.children || [],
+        { y: 100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.8 }
+      );
 
+      // Floating Background Elements
+      gsap.to(".floating-blob", {
+        y: "random(-50, 50)",
+        x: "random(-50, 50)",
+        duration: "random(5, 10)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
 
-  return (
-    <div ref={containerRef} className="md:h-screen pt-44 md:pt-0 pb-20 w-full flex flex-col items-center justify-center p-4 md:p-6 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-        {/* Unified Background Gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary),0.15),transparent_70%)]" />
-        
-        {/* Animated Orbs blended together */}
-        <div className="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] bg-primary/20 rounded-full blur-[100px] mix-blend-screen animate-pulse opacity-60" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-purple-500/20 rounded-full blur-[100px] mix-blend-screen animate-pulse delay-1000 opacity-60" />
-        <div className="absolute top-[40%] left-[40%] w-[60vw] h-[60vw] bg-blue-500/10 rounded-full blur-[120px] mix-blend-screen animate-pulse delay-500 opacity-40" />
+  const features = [
+    { icon: KeyRound, title: t.feat_gen[lang], desc: t.feat_gen_desc[lang], color: "text-blue-500", bg: "bg-blue-500/10" },
+    { icon: Lock, title: t.feat_vault[lang], desc: t.feat_vault_desc[lang], color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { icon: Activity, title: t.feat_analyze[lang], desc: t.feat_analyze_desc[lang], color: "text-orange-500", bg: "bg-orange-500/10" },
+    { icon: Wrench, title: t.feat_tools[lang], desc: t.feat_tools_desc[lang], color: "text-purple-500", bg: "bg-purple-500/10" },
+  ];
 
-        {/* Noise Texture for Texture/Union */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+  const toggleLang = () => {
+    if (lang === 'en') setLang('fr');
+    else if (lang === 'fr') setLang('ar');
+    else setLang('en');
+  };
+
+  return (
+    <div ref={containerRef} className="relative w-full h-full min-h-screen overflow-hidden bg-background text-foreground flex flex-col items-center justify-center">
+      
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="floating-blob absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] mix-blend-screen opacity-50"></div>
+        <div className="floating-blob absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] mix-blend-screen opacity-50"></div>
+        <div className="floating-blob absolute top-[40%] left-[30%] w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[80px] mix-blend-screen opacity-30"></div>
+        
+        {/* Grid overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.03] dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)]"></div>
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center justify-center h-full max-h-[900px]">
-        <div className="flex-1 flex flex-col items-center justify-center space-y-6 md:space-y-8 w-full">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/50 border border-border/50 backdrop-blur-sm text-xs font-medium text-muted-foreground animate-in fade-in slide-in-from-top-4 duration-700">
-            <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            v1.0 Now Available
-            </div>
+      {/* Top Right Controls */}
+      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+        <button
+          onClick={toggleLang}
+          className="p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
+          title="Switch Language"
+        >
+          <div className="flex items-center gap-2 px-1">
+            <Globe size={18} />
+            <span className="text-xs font-bold uppercase">{lang}</span>
+          </div>
+        </button>
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
+          title="Toggle Theme"
+        >
+          {isDarkMode ? <Moon size={18} /> : <Sun size={18} />}
+        </button>
+      </div>
 
-            <h1 ref={titleRef} className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/40 pb-2 leading-tight">
-            Secure Your Digital <br className="hidden md:block" />
-            <span className="text-primary">Life with Confidence</span>
-            </h1>
+      <div className="relative z-10 w-full max-w-6xl px-6 py-12 flex flex-col items-center">
+        
+        {/* Hero Section */}
+        <div ref={heroTextRef} className="text-center mb-16 space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50 backdrop-blur-md mb-4 shadow-lg">
+            <Shield size={16} className="text-primary" />
+            <span className="text-xs font-bold tracking-wider uppercase text-muted-foreground">XPass Security Suite</span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-muted-foreground">
+             {t.landing_hero[lang]}
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+             {t.landing_sub[lang]}
+          </p>
 
-            <p ref={descRef} className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-            The ultimate security toolkit. Generate unbreakable passwords, analyze vault health, and manage your credentials with military-grade encryption.
-            </p>
-
-            <div className="pt-2 md:pt-4">
-            <button 
-                ref={btnRef}
-                onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(var(--primary),0.5)] active:scale-95 cursor-pointer "
-            >
-                Get Started
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            </div>
+          <button 
+            onClick={onGetStarted}
+            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-full text-lg font-bold shadow-2xl shadow-primary/30 overflow-hidden transition-all hover:scale-105 active:scale-95 hover:shadow-primary/50"
+          >
+            <span className="relative z-10">{t.landing_cta[lang]}</span>
+            <ChevronRight className="relative z-10 transition-transform group-hover:translate-x-1" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+          </button>
         </div>
 
-        <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mt-8 md:mt-12 text-left pb-4 md:pb-0">
-          <FeatureCard 
-            icon={<Shield className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />}
-            title="Advanced Security"
-            description="Military-grade encryption for your local vault."
-          />
-          <FeatureCard 
-            icon={<Zap className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />}
-            title="Lightning Fast"
-            description="Instant password generation and strength analysis."
-          />
-          <FeatureCard 
-            icon={<Eye className="w-5 h-5 md:w-6 md:h-6 text-purple-400" />}
-            title="AI Advisor"
-            description="Smart security recommendations powered by AI."
-          />
+        {/* Feature Cards */}
+        <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+            {features.map((f, i) => (
+                <div key={i} className="group p-6 rounded-3xl bg-card/40 backdrop-blur-md border border-white/10 dark:border-white/5 hover:bg-card/60 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-xl hover:border-primary/20">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${f.bg} ${f.color} group-hover:scale-110 transition-transform duration-300`}>
+                        <f.icon size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">{f.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                </div>
+            ))}
         </div>
+
+
       </div>
     </div>
   );
 };
-
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-  <div className="p-6 rounded-2xl bg-secondary/20 border border-border/50 backdrop-blur-sm hover:bg-secondary/40 transition-colors">
-    <div className="mb-4 p-3 bg-background/50 w-fit rounded-xl border border-border/50">
-      {icon}
-    </div>
-    <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    <p className="text-sm text-muted-foreground">{description}</p>
-  </div>
-);
 
 export default LandingPage;
