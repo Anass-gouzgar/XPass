@@ -73,10 +73,10 @@ const LandingPage: React.FC<Props> = ({ lang, setLang, isDarkMode, setIsDarkMode
       </div>
 
       {/* Top Right Controls */}
-      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+      <div className="absolute top-4 right-4 md:top-6 md:right-6 z-50 flex items-center gap-2 md:gap-3">
         <button
           onClick={toggleLang}
-          className="p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
+          className="p-1.5 md:p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
           title="Switch Language"
         >
           <div className="flex items-center gap-2 px-1">
@@ -86,14 +86,14 @@ const LandingPage: React.FC<Props> = ({ lang, setLang, isDarkMode, setIsDarkMode
         </button>
         <button
           onClick={() => setIsDarkMode(!isDarkMode)}
-          className="p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
+          className="p-1.5 md:p-2 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-background/80 transition-colors text-muted-foreground hover:text-foreground"
           title="Toggle Theme"
         >
           {isDarkMode ? <Moon size={18} /> : <Sun size={18} />}
         </button>
       </div>
 
-      <div className="relative z-10 w-full max-w-6xl px-6 py-12 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-6xl px-6 pt-20 pb-12 md:py-12 flex flex-col items-center">
         
         {/* Hero Section */}
         <div ref={heroTextRef} className="text-center mb-16 space-y-6">
